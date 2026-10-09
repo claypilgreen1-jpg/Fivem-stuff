@@ -5,8 +5,10 @@ to match the Motion City RP logo: neon magenta, violet and cyan, chrome letterin
 
 - **Pick a character:** your characters are listed down the left. Click one and it appears standing in
   the scene, wearing its saved outfit, with a big chrome name, job, birthday, cash and bank on the right.
-- **Where you stand:** each login picks one of four scenes at random: the Eclipse Towers penthouse,
+- **Where you stand:** your character stands in a real GTA location: the Eclipse Towers penthouse,
   Vespucci Beach at sunset, the Maze Bank Tower roof at night, or the yacht. The location shows top right.
+- **Settings (gear button, top right):** pick your background, or "Random every login". It switches
+  straight away and is remembered on that player's PC for next time.
 - **Make a character:** pick an empty slot, fill in the form (name, date of birth, height, sex), then
   build your face, hair and clothes in illenium-appearance.
 - **Delete a character:** you have to type its full name to confirm.
@@ -41,7 +43,7 @@ and illenium-appearance handles the skin events.
 | `Relog` | `true` | Enables `/relog` |
 | `Identity` | 2-16 letter names, 18-90 years, 140-210 cm | Creation form rules. These are checked on the server too |
 | `Identity.dateFormat` | `DD/MM/YYYY` | How `dateofbirth` is stored. Match what your server used before |
-| `SceneMode` | `random` | `random`, or one scene name (`penthouse`, `beach`, `rooftop`, `yacht`) to always use it |
+| `SceneMode` | `random` | Default background for players who haven't picked one in Settings: `random`, or a scene name (`penthouse`, `beach`, `rooftop`, `yacht`) |
 | `Scenes` | 4 scenes | Each scene's position, camera, time of day, weather, and the GTA Online interior it needs |
 | `NewCharacterSpawn` | `nil` | Where new characters spawn. `nil` uses es_extended's `DefaultSpawns` |
 

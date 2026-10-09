@@ -89,8 +89,24 @@ end
 -- ---------------------------------------------------------------------------
 -- Scenes (penthouse, beach, rooftop, yacht...)
 -- ---------------------------------------------------------------------------
+-- The player's own choice from the settings menu wins, then the server default.
+local KVP_SCENE = 'motion_multichar:scene'
+
+local function sceneChoice()
+    local saved = GetResourceKvpString(KVP_SCENE)
+    if saved == 'random' or (saved and Config.Scenes[saved]) then return saved end
+    return Config.SceneMode
+end
+
+local function sceneList()
+    local list = {}
+    for id, scene in pairs(Config.Scenes) do list[#list + 1] = { id = id, label = scene.label or id } end
+    table.sort(list, function(a, b) return a.label < b.label end)
+    return list
+end
+
 local function pickScene()
-    local mode = Config.SceneMode
+    local mode = sceneChoice()
     if mode ~= 'random' and Config.Scenes[mode] then return Config.Scenes[mode] end
     local list = {}
     for _, scene in pairs(Config.Scenes) do list[#list + 1] = scene end
@@ -213,6 +229,7 @@ RegisterNetEvent('motion_multichar:open', function(list, slots, canDelete)
     send('open', {
         characters = ui, slots = slots, canDelete = canDelete, selected = first or 1,
         identity = Config.Identity, location = state.scene and state.scene.label or nil,
+        scenes = sceneList(), sceneChoice = sceneChoice(),
     })
 end)
 
@@ -223,6 +240,25 @@ end)
 -- ---------------------------------------------------------------------------
 -- NUI
 -- ---------------------------------------------------------------------------
+-- Settings: switch the background live and remember it for next time.
+RegisterNUICallback('setScene', function(data, cb)
+    local choice = data.scene
+    if choice ~= 'random' and not Config.Scenes[choice] then return cb({}) end
+    SetResourceKvp(KVP_SCENE, choice)
+
+    DoScreenFadeOut(300)
+    waitFade(true)
+    stopCamera()
+    state.scene = pickScene()
+    loadScene(state.scene)
+    local slot = state.previewing
+    state.previewing = nil
+    preview(slot or 1)
+    startCamera()
+    DoScreenFadeIn(400)
+    cb({ location = state.scene.label, sceneChoice = choice })
+end)
+
 RegisterNUICallback('preview', function(data, cb)
     cb(1)
     local slot = tonumber(data.slot)

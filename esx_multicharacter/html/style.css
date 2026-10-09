@@ -91,8 +91,28 @@ html, body { margin: 0; height: 100%; background: transparent; overflow: hidden;
 #details .actions button { padding: 16px 26px; font-size: 18px; }
 #details .actions .primary { font-size: 22px; }
 
-/* Where you are */
-#location { position: absolute; right: 4.5vw; top: 4.5vh; text-align: right; }
+/* Where you are + settings */
+#topbar { position: absolute; right: 4.5vw; top: 4.5vh; display: flex; align-items: center; gap: 16px; }
+#location { text-align: right; }
+button.icon { width: 48px; height: 48px; padding: 0; display: grid; place-items: center; border-radius: 14px;
+  background: var(--bg-solid); color: var(--text); }
+button.icon svg { transition: transform .4s; }
+button.icon:hover svg, button.icon.active svg { transform: rotate(60deg); }
+button.icon.active { border-color: transparent;
+  background: linear-gradient(var(--bg-solid), var(--bg-solid)) padding-box, var(--neon) border-box;
+  box-shadow: 0 0 16px rgba(255, 61, 242, .4); }
+#settings { position: absolute; right: 4.5vw; top: calc(4.5vh + 62px); width: 300px; padding: 18px; z-index: 5;
+  background: linear-gradient(var(--bg-solid), var(--bg-solid)) padding-box, var(--neon) border-box;
+  border: 1px solid transparent; border-radius: 18px; box-shadow: 0 0 30px rgba(139, 61, 255, .4); }
+.settings-title { font-family: 'Rubik Wet Paint', 'Permanent Marker', cursive; font-size: 24px;
+  background: var(--neon); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.settings-label { margin: 12px 0 8px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+#scene-options { display: flex; flex-direction: column; gap: 8px; }
+.scene-opt { text-align: left; text-transform: none; letter-spacing: .02em; font-size: 16px; font-weight: 600; padding: 12px 14px; }
+.scene-opt.active { border-color: transparent;
+  background: linear-gradient(rgba(40, 14, 70, .95), rgba(40, 14, 70, .95)) padding-box, var(--neon) border-box;
+  box-shadow: 0 0 14px rgba(255, 61, 242, .3); }
+.scene-opt.active::after { content: '✓'; float: right; color: var(--cyan); }
 #location span { display: block; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
 #location b { font-family: 'Permanent Marker', cursive; font-weight: 400; font-size: 22px;
   background: var(--neon); -webkit-background-clip: text; background-clip: text; color: transparent; }

@@ -7,6 +7,9 @@ let selected = 1;
 let canDelete = true;
 let identity = {};
 let sex = 'm';
+let scenes = [];
+let sceneChoice = 'random';
+let switchingScene = false;
 
 const post = (name, data = {}) => fetch(`https://${RES}/${name}`, {
   method: 'POST',
@@ -146,6 +149,50 @@ $('confirm-ok').addEventListener('click', () => {
   post('delete', { slot: selected });
 });
 
+/* ---------- Settings: background picker ---------- */
+function renderSceneOptions() {
+  const box = $('scene-options');
+  box.innerHTML = '';
+  [{ id: 'random', label: 'Random every login' }, ...scenes].forEach((sc) => {
+    const b = document.createElement('button');
+    b.className = `scene-opt${sc.id === sceneChoice ? ' active' : ''}`;
+    b.textContent = sc.label;
+    b.disabled = switchingScene;
+    b.addEventListener('click', async () => {
+      if (switchingScene || sc.id === sceneChoice) return;
+      switchingScene = true;
+      sceneChoice = sc.id;
+      renderSceneOptions();
+      try {
+        const res = await fetch(`https://${RES}/setScene`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+          body: JSON.stringify({ scene: sc.id }),
+        }).then((r) => r.json());
+        if (res && res.location) {
+          $('location-name').textContent = res.location;
+          $('location').classList.remove('hidden');
+        }
+      } catch (e) { /* game didn't answer; keep the old background */ }
+      switchingScene = false;
+      renderSceneOptions();
+    });
+    box.append(b);
+  });
+}
+
+$('btn-settings').addEventListener('click', (e) => {
+  e.stopPropagation();
+  $('settings').classList.toggle('hidden');
+  $('btn-settings').classList.toggle('active', !$('settings').classList.contains('hidden'));
+});
+document.addEventListener('click', (e) => {
+  if (!e.target.isConnected) return; // the options list was just redrawn under the click
+  if (!$('settings').contains(e.target) && e.target !== $('btn-settings')) {
+    $('settings').classList.add('hidden');
+    $('btn-settings').classList.remove('active');
+  }
+});
+
 /* ---------- Messages from the game ---------- */
 window.addEventListener('message', (e) => {
   const { action, data } = e.data || {};
@@ -158,6 +205,11 @@ window.addEventListener('message', (e) => {
     selected = data.selected || 1;
     $('location').classList.toggle('hidden', !data.location);
     $('location-name').textContent = data.location || '';
+    scenes = data.scenes || [];
+    sceneChoice = data.sceneChoice || 'random';
+    $('btn-settings').classList.toggle('hidden', scenes.length < 2);
+    $('settings').classList.add('hidden');
+    renderSceneOptions();
     $('create').classList.add('hidden');
     $('confirm').classList.add('hidden');
     $('app').classList.remove('hidden');
