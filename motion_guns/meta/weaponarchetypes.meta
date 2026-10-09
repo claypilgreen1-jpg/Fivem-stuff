@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CWeaponModelInfo__InitDataList>
+  <InitDatas>
+    <Item>
+      <modelName>w_pi_motion_glock17</modelName>
+      <txdName>w_pi_motion_glock17</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_pi_motion_glock19x</modelName>
+      <txdName>w_pi_motion_glock19x</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_pi_motion_g18</modelName>
+      <txdName>w_pi_motion_g18</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_pi_motion_p226</modelName>
+      <txdName>w_pi_motion_p226</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_pi_motion_m9</modelName>
+      <txdName>w_pi_motion_m9</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_pi_motion_fn57</modelName>
+      <txdName>w_pi_motion_fn57</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_pi_motion_1911</modelName>
+      <txdName>w_pi_motion_1911</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_pi_motion_p365</modelName>
+      <txdName>w_pi_motion_p365</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_pi_motion_deagle</modelName>
+      <txdName>w_pi_motion_deagle</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_pi_motion_python</modelName>
+      <txdName>w_pi_motion_python</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_sb_motion_mp5</modelName>
+      <txdName>w_sb_motion_mp5</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_sb_motion_mpx</modelName>
+      <txdName>w_sb_motion_mpx</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_sb_motion_vector</modelName>
+      <txdName>w_sb_motion_vector</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_sb_motion_mp7</modelName>
+      <txdName>w_sb_motion_mp7</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_sb_motion_uzi</modelName>
+      <txdName>w_sb_motion_uzi</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_sb_motion_tec9</modelName>
+      <txdName>w_sb_motion_tec9</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_sb_motion_scorpion</modelName>
+      <txdName>w_sb_motion_scorpion</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_ar_motion_m4a1</modelName>
+      <txdName>w_ar_motion_m4a1</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_ar_motion_hk416</modelName>
+      <txdName>w_ar_motion_hk416</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_ar_motion_mcx</modelName>
+      <txdName>w_ar_motion_mcx</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_ar_motion_ak47</modelName>
+      <txdName>w_ar_motion_ak47</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_ar_motion_ak74u</modelName>
+      <txdName>w_ar_motion_ak74u</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_ar_motion_scarl</modelName>
+      <txdName>w_ar_motion_scarl</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_ar_motion_g36c</modelName>
+      <txdName>w_ar_motion_g36c</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_ar_motion_aug</modelName>
+      <txdName>w_ar_motion_aug</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_sg_motion_870</modelName>
+      <txdName>w_sg_motion_870</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_sg_motion_m4super</modelName>
+      <txdName>w_sg_motion_m4super</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_sg_motion_saiga12</modelName>
+      <txdName>w_sg_motion_saiga12</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_sr_motion_sr25</modelName>
+      <txdName>w_sr_motion_sr25</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_sr_motion_m24</modelName>
+      <txdName>w_sr_motion_m24</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_sr_motion_m82</modelName>
+      <txdName>w_sr_motion_m82</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_mg_motion_m249</modelName>
+      <txdName>w_mg_motion_m249</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+    <Item>
+      <modelName>w_mg_motion_pkm</modelName>
+      <txdName>w_mg_motion_pkm</txdName>
+      <ptfxAssetName>NULL</ptfxAssetName>
+      <lodDist value="500" />
+    </Item>
+  </InitDatas>
+</CWeaponModelInfo__InitDataList>

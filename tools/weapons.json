@@ -1,0 +1,43 @@
+{
+  "_readme": "Motion Guns roster. Each entry becomes an add-on weapon. 'base' is the vanilla weapon whose handling, animations and audio are cloned. 'model' must match the .ydr/.ytd file names you put in motion_guns/stream. Optional overrides: clip, damage, fireRate (seconds between shots), range, scope (vanilla scope component for snipers). Run: python3 tools/build.py",
+  "weapons": [
+    { "name": "WEAPON_MOTION_GLOCK17",  "label": "Glock 17",          "category": "pistol",  "base": "WEAPON_COMBATPISTOL", "model": "w_pi_motion_glock17",  "clip": 17 },
+    { "name": "WEAPON_MOTION_GLOCK19X", "label": "Glock 19X",         "category": "pistol",  "base": "WEAPON_COMBATPISTOL", "model": "w_pi_motion_glock19x", "clip": 19 },
+    { "name": "WEAPON_MOTION_G18",      "label": "Glock 18C",         "category": "pistol",  "base": "WEAPON_APPISTOL",     "model": "w_pi_motion_g18",      "clip": 33 },
+    { "name": "WEAPON_MOTION_P226",     "label": "SIG P226",          "category": "pistol",  "base": "WEAPON_PISTOL",       "model": "w_pi_motion_p226",     "clip": 15, "damage": 28 },
+    { "name": "WEAPON_MOTION_M9",       "label": "Beretta M9",        "category": "pistol",  "base": "WEAPON_PISTOL",       "model": "w_pi_motion_m9",       "clip": 15 },
+    { "name": "WEAPON_MOTION_FN57",     "label": "FN Five-seveN",     "category": "pistol",  "base": "WEAPON_PISTOL",       "model": "w_pi_motion_fn57",     "clip": 20, "damage": 27 },
+    { "name": "WEAPON_MOTION_1911",     "label": "Colt 1911",         "category": "pistol",  "base": "WEAPON_HEAVYPISTOL",  "model": "w_pi_motion_1911",     "clip": 8 },
+    { "name": "WEAPON_MOTION_P365",     "label": "SIG P365",          "category": "pistol",  "base": "WEAPON_SNSPISTOL",    "model": "w_pi_motion_p365",     "clip": 10 },
+    { "name": "WEAPON_MOTION_DEAGLE",   "label": "Desert Eagle",      "category": "pistol",  "base": "WEAPON_PISTOL50",     "model": "w_pi_motion_deagle",   "clip": 7 },
+    { "name": "WEAPON_MOTION_PYTHON",   "label": "Colt Python",       "category": "pistol",  "base": "WEAPON_REVOLVER",     "model": "w_pi_motion_python",   "clip": 6 },
+
+    { "name": "WEAPON_MOTION_MP5",      "label": "HK MP5A3",          "category": "smg",     "base": "WEAPON_SMG",          "model": "w_sb_motion_mp5",      "clip": 30 },
+    { "name": "WEAPON_MOTION_MPX",      "label": "SIG MPX",           "category": "smg",     "base": "WEAPON_SMG",          "model": "w_sb_motion_mpx",      "clip": 30, "fireRate": 0.07 },
+    { "name": "WEAPON_MOTION_VECTOR",   "label": "KRISS Vector",      "category": "smg",     "base": "WEAPON_SMG",          "model": "w_sb_motion_vector",   "clip": 25, "fireRate": 0.055 },
+    { "name": "WEAPON_MOTION_MP7",      "label": "HK MP7",            "category": "smg",     "base": "WEAPON_COMBATPDW",    "model": "w_sb_motion_mp7",      "clip": 40 },
+    { "name": "WEAPON_MOTION_UZI",      "label": "Micro Uzi",         "category": "smg",     "base": "WEAPON_MICROSMG",     "model": "w_sb_motion_uzi",      "clip": 32 },
+    { "name": "WEAPON_MOTION_TEC9",     "label": "TEC-9",             "category": "smg",     "base": "WEAPON_MACHINEPISTOL","model": "w_sb_motion_tec9",     "clip": 32 },
+    { "name": "WEAPON_MOTION_SCORPION", "label": "CZ Scorpion Evo",   "category": "smg",     "base": "WEAPON_MINISMG",      "model": "w_sb_motion_scorpion", "clip": 30 },
+
+    { "name": "WEAPON_MOTION_M4A1",     "label": "Colt M4A1",         "category": "rifle",   "base": "WEAPON_CARBINERIFLE", "model": "w_ar_motion_m4a1",     "clip": 30 },
+    { "name": "WEAPON_MOTION_HK416",    "label": "HK416",             "category": "rifle",   "base": "WEAPON_CARBINERIFLE", "model": "w_ar_motion_hk416",    "clip": 30, "damage": 33 },
+    { "name": "WEAPON_MOTION_MCX",      "label": "SIG MCX",           "category": "rifle",   "base": "WEAPON_CARBINERIFLE", "model": "w_ar_motion_mcx",      "clip": 30 },
+    { "name": "WEAPON_MOTION_AK47",     "label": "AK-47",             "category": "rifle",   "base": "WEAPON_ASSAULTRIFLE", "model": "w_ar_motion_ak47",     "clip": 30, "damage": 34 },
+    { "name": "WEAPON_MOTION_AK74U",    "label": "AKS-74U",           "category": "rifle",   "base": "WEAPON_COMPACTRIFLE", "model": "w_ar_motion_ak74u",    "clip": 30 },
+    { "name": "WEAPON_MOTION_SCARL",    "label": "FN SCAR-L",         "category": "rifle",   "base": "WEAPON_SPECIALCARBINE","model": "w_ar_motion_scarl",   "clip": 30 },
+    { "name": "WEAPON_MOTION_G36C",     "label": "HK G36C",           "category": "rifle",   "base": "WEAPON_SPECIALCARBINE","model": "w_ar_motion_g36c",    "clip": 30 },
+    { "name": "WEAPON_MOTION_AUG",      "label": "Steyr AUG A3",      "category": "rifle",   "base": "WEAPON_BULLPUPRIFLE", "model": "w_ar_motion_aug",      "clip": 30 },
+
+    { "name": "WEAPON_MOTION_870",      "label": "Remington 870",     "category": "shotgun", "base": "WEAPON_PUMPSHOTGUN",  "model": "w_sg_motion_870",      "clip": 6 },
+    { "name": "WEAPON_MOTION_M4SUPER",  "label": "Benelli M4",        "category": "shotgun", "base": "WEAPON_COMBATSHOTGUN","model": "w_sg_motion_m4super",  "clip": 7 },
+    { "name": "WEAPON_MOTION_SAIGA12",  "label": "Saiga-12",          "category": "shotgun", "base": "WEAPON_ASSAULTSHOTGUN","model": "w_sg_motion_saiga12", "clip": 10 },
+
+    { "name": "WEAPON_MOTION_SR25",     "label": "KAC SR-25",         "category": "sniper",  "base": "WEAPON_MARKSMANRIFLE","model": "w_sr_motion_sr25",     "clip": 20, "scope": "COMPONENT_AT_SCOPE_LARGE_FIXED_ZOOM" },
+    { "name": "WEAPON_MOTION_M24",      "label": "M24 SWS",           "category": "sniper",  "base": "WEAPON_SNIPERRIFLE",  "model": "w_sr_motion_m24",      "clip": 5,  "scope": "COMPONENT_AT_SCOPE_LARGE" },
+    { "name": "WEAPON_MOTION_M82",      "label": "Barrett M82A1",     "category": "sniper",  "base": "WEAPON_HEAVYSNIPER",  "model": "w_sr_motion_m82",      "clip": 10, "scope": "COMPONENT_AT_SCOPE_MAX" },
+
+    { "name": "WEAPON_MOTION_M249",     "label": "FN M249 SAW",       "category": "mg",      "base": "WEAPON_COMBATMG",     "model": "w_mg_motion_m249",     "clip": 100 },
+    { "name": "WEAPON_MOTION_PKM",      "label": "PKM",               "category": "mg",      "base": "WEAPON_MG",           "model": "w_mg_motion_pkm",      "clip": 100, "damage": 36 }
+  ]
+}
