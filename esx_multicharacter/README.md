@@ -3,8 +3,10 @@
 A custom character select and creation screen for **ESX Legacy** with **illenium-appearance**, styled
 to match the Motion City RP logo: neon magenta, violet and cyan, chrome lettering and graffiti type.
 
-- **Pick a character:** your characters are listed down the left, each showing its job. Click one to
-  see it standing in the scene, with its name, date of birth, height, job, cash and bank on the right.
+- **Pick a character:** your characters are listed down the left. Click one and it appears standing in
+  the scene, wearing its saved outfit, with a big chrome name, job, birthday, cash and bank on the right.
+- **Where you stand:** each login picks one of four scenes at random: the Eclipse Towers penthouse,
+  Vespucci Beach at sunset, the Maze Bank Tower roof at night, or the yacht. The location shows top right.
 - **Make a character:** pick an empty slot, fill in the form (name, date of birth, height, sex), then
   build your face, hair and clothes in illenium-appearance.
 - **Delete a character:** you have to type its full name to confirm.
@@ -39,8 +41,25 @@ and illenium-appearance handles the skin events.
 | `Relog` | `true` | Enables `/relog` |
 | `Identity` | 2-16 letter names, 18-90 years, 140-210 cm | Creation form rules. These are checked on the server too |
 | `Identity.dateFormat` | `DD/MM/YYYY` | How `dateofbirth` is stored. Match what your server used before |
-| `Scene` | Vinewood Hills overlook, 7 pm | Where the character stands, the camera angle, and the time of day |
+| `SceneMode` | `random` | `random`, or one scene name (`penthouse`, `beach`, `rooftop`, `yacht`) to always use it |
+| `Scenes` | 4 scenes | Each scene's position, camera, time of day, weather, and the GTA Online interior it needs |
 | `NewCharacterSpawn` | `nil` | Where new characters spawn. `nil` uses es_extended's `DefaultSpawns` |
+
+## Adjusting a scene
+
+The positions are taken from GTA's map data, but you may want to fine-tune where the character stands
+or where the camera sits. To do that:
+
+1. Go to the spot in game and stand exactly where the character should stand, facing the way they
+   should face.
+2. Move your gameplay camera to roughly where the menu camera should be.
+3. Run `/mcscene penthouse` (or any name). It prints a ready-made line in the F8 console.
+4. Paste that line over the matching scene in `Config.Scenes`, then restart the resource.
+
+You can also add your own scenes this way, and delete any you don't want.
+
+**Penthouse and yacht** are GTA Online interiors. The script loads them itself. If you run
+bob74_ipl, they're already loaded.
 
 ## Admin commands
 

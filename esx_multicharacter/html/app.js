@@ -38,9 +38,13 @@ function renderDetails() {
   const c = characters[selected];
   $('details').classList.toggle('hidden', !c);
   if (!c) return;
-  $('d-name').textContent = fullName(c);
-  $('d-meta').textContent = [c.sex === 'f' ? 'Female' : 'Male', c.dateofbirth, c.height ? `${c.height} cm` : ''].filter(Boolean).join(' · ');
+  $('d-slot').textContent = `Character ${c.slot}`;
+  $('d-name').innerHTML = '';
+  const [first, ...rest] = fullName(c).split(' ');
+  $('d-name').append(first, document.createElement('br'), rest.join(' '));
+  $('d-meta').textContent = [c.sex === 'f' ? 'Female' : 'Male', c.height ? `${c.height} cm` : ''].filter(Boolean).join(' · ');
   $('d-job').textContent = [c.job, c.grade].filter(Boolean).join(' · ');
+  $('d-born').textContent = c.dateofbirth || '-';
   $('d-cash').textContent = money(c.money);
   $('d-bank').textContent = money(c.bank);
   $('btn-delete').classList.toggle('hidden', !canDelete);
@@ -152,6 +156,8 @@ window.addEventListener('message', (e) => {
     canDelete = data.canDelete;
     identity = data.identity || {};
     selected = data.selected || 1;
+    $('location').classList.toggle('hidden', !data.location);
+    $('location-name').textContent = data.location || '';
     $('create').classList.add('hidden');
     $('confirm').classList.add('hidden');
     $('app').classList.remove('hidden');

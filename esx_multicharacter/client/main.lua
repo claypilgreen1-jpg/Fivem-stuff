@@ -7,6 +7,7 @@ local state = {
     previewing = nil, -- slot currently shown
     creating = false,
     canRelog = true,
+    scene = nil,      -- the Config.Scenes entry in use
 }
 
 local DEFAULT_MODELS = { m = `mp_m_freemode_01`, f = `mp_f_freemode_01` }
@@ -23,10 +24,14 @@ local function hideHud(hide)
     MumbleSetVolumeOverride(PlayerId(), hide and 0.0 or -1.0)
 end
 
+local function scenePos()
+    return state.scene.ped
+end
+
 local function placePed()
-    local p = Config.Scene.ped
+    local p = scenePos()
     local ped = PlayerPedId()
-    SetEntityCoordsNoOffset(ped, p.x, p.y, p.z, false, false, false)
+    SetEntityCoords(ped, p.x, p.y, p.z, false, false, false, false) -- z is where the feet go
     SetEntityHeading(ped, p.w)
     FreezeEntityPosition(ped, true)
     SetEntityInvincible(ped, true)
@@ -35,7 +40,7 @@ local function placePed()
 end
 
 local function startCamera()
-    local p = Config.Scene.ped
+    local p = scenePos()
     local heading = math.rad(p.w)
     -- Offsets are relative to the way the character faces.
     local function rel(o)
@@ -44,7 +49,8 @@ local function startCamera()
             p.y + o.x * math.sin(heading) + o.y * math.cos(heading),
             p.z + o.z)
     end
-    local camPos, lookAt = rel(Config.Scene.camOffset), rel(Config.Scene.lookOffset)
+    local camPos = rel(state.scene.camOffset or vector3(0.0, 2.6, 1.45))
+    local lookAt = rel(state.scene.lookOffset or vector3(0.0, 0.0, 1.15))
     state.cam = CreateCamWithParams('DEFAULT_SCRIPTED_CAMERA', camPos.x, camPos.y, camPos.z, 0.0, 0.0, 0.0, 40.0, false, 2)
     PointCamAtCoord(state.cam, lookAt.x, lookAt.y, lookAt.z)
     SetCamActive(state.cam, true)
@@ -81,6 +87,73 @@ local function send(action, data)
 end
 
 -- ---------------------------------------------------------------------------
+-- Scenes (penthouse, beach, rooftop, yacht...)
+-- ---------------------------------------------------------------------------
+local function pickScene()
+    local mode = Config.SceneMode
+    if mode ~= 'random' and Config.Scenes[mode] then return Config.Scenes[mode] end
+    local list = {}
+    for _, scene in pairs(Config.Scenes) do list[#list + 1] = scene end
+    return list[math.random(#list)]
+end
+
+-- Loads map pieces and collision around the scene, then sets the mood (time + weather).
+local function loadScene(scene)
+    local p = scene.ped
+    for _, ipl in ipairs(scene.ipl or {}) do
+        if not IsIplActive(ipl) then RequestIpl(ipl) end
+    end
+    if scene.interior then
+        local interior = GetInteriorAtCoords(p.x, p.y, p.z)
+        if interior ~= 0 then
+            PinInteriorInMemory(interior)
+            local deadline = GetGameTimer() + 5000
+            while not IsInteriorReady(interior) and GetGameTimer() < deadline do Wait(0) end
+        end
+    end
+
+    local ped = PlayerPedId()
+    SetEntityCoords(ped, p.x, p.y, p.z, false, false, false, false)
+    RequestCollisionAtCoord(p.x, p.y, p.z)
+    local deadline = GetGameTimer() + 5000
+    while not HasCollisionLoadedAroundEntity(ped) and GetGameTimer() < deadline do Wait(0) end
+
+    if scene.snapToGround and not scene._snapped then
+        local found, z = GetGroundZFor_3dCoord(p.x, p.y, p.z + 3.0, false)
+        if found then scene.ped = vector4(p.x, p.y, z, p.w) end
+        scene._snapped = true
+    end
+
+    if scene.hour then NetworkOverrideClockTime(scene.hour, 0, 0) end
+    if scene.weather then
+        SetOverrideWeather(scene.weather)
+        SetWeatherTypeNowPersist(scene.weather)
+    end
+end
+
+local function clearSceneMood()
+    NetworkClearClockTimeOverride()
+    ClearOverrideWeather()
+end
+
+-- /mcscene: stand where the character should be, face their way, aim the gameplay camera,
+-- and this prints a Config.Scenes line to paste.
+RegisterCommand('mcscene', function(_, args)
+    local ped = PlayerPedId()
+    local c, heading = GetEntityCoords(ped), GetEntityHeading(ped)
+    local cam = GetGameplayCamCoord()
+    local h = math.rad(heading)
+    local d = cam - c
+    -- world offset -> character-relative (x = right, y = in front)
+    local rx = d.x * math.cos(h) + d.y * math.sin(h)
+    local ry = -d.x * math.sin(h) + d.y * math.cos(h)
+    local line = ("%s = { label = '%s', ped = vector4(%.2f, %.2f, %.2f, %.1f), camOffset = vector3(%.2f, %.2f, %.2f), lookOffset = vector3(0.0, 0.0, 1.15), hour = %d },")
+        :format(args[1] or 'myscene', args[1] or 'My Scene', c.x, c.y, c.z - 1.0, heading, rx, ry, d.z + 1.0, GetClockHours())
+    print(line)
+    TriggerEvent('chat:addMessage', { args = { 'mcscene', 'Printed to F8 console: ' .. line } })
+end, false)
+
+-- ---------------------------------------------------------------------------
 -- Preview
 -- ---------------------------------------------------------------------------
 local function preview(slot)
@@ -105,10 +178,11 @@ local function begin()
     ESX.PlayerData = {}
 
     DoScreenFadeOut(0)
+    state.scene = pickScene()
+    loadScene(state.scene)
     placePed()
     SetPlayerControl(PlayerId(), false, 0)
     hideHud(true)
-    if Config.Scene.hour then NetworkOverrideClockTime(Config.Scene.hour, 0, 0) end
     startCamera()
 
     ShutdownLoadingScreen()
@@ -136,7 +210,10 @@ RegisterNetEvent('motion_multichar:open', function(list, slots, canDelete)
         ui[#ui + 1] = copy
     end
     SetNuiFocus(true, true)
-    send('open', { characters = ui, slots = slots, canDelete = canDelete, selected = first or 1, identity = Config.Identity })
+    send('open', {
+        characters = ui, slots = slots, canDelete = canDelete, selected = first or 1,
+        identity = Config.Identity, location = state.scene and state.scene.label or nil,
+    })
 end)
 
 RegisterNetEvent('motion_multichar:error', function(message)
@@ -190,7 +267,7 @@ RegisterNetEvent('esx:playerLoaded', function(playerData, isNew, skin)
     DoScreenFadeOut(500)
     waitFade(true)
     stopCamera()
-    NetworkClearClockTimeOverride()
+    clearSceneMood()
 
     if type(skin) == 'string' then skin = json.decode(skin) end
     local needsCreator = isNew or type(skin) ~= 'table' or not skin.model
@@ -276,6 +353,7 @@ AddEventHandler('onResourceStop', function(resource)
     if state.active then
         SetNuiFocus(false, false)
         stopCamera()
+        clearSceneMood()
         hideHud(false)
         DoScreenFadeIn(0)
     end
