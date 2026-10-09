@@ -96,8 +96,8 @@ local function cleanString(value, maxLen)
     return value:sub(1, maxLen)
 end
 
-RegisterNetEvent('motion_npctalk:say', function(pedKey, netId, message, info, fromChat)
-    local src = source
+-- showPlayerLine: echo what the player said to nearby players (chat already shows typed messages).
+local function handleSay(src, pedKey, netId, message, info, showPlayerLine)
     message = cleanString(message, Config.MaxMessageLength)
     if not message or type(pedKey) ~= 'number' or type(info) ~= 'table' then return end
 
@@ -128,7 +128,7 @@ RegisterNetEvent('motion_npctalk:say', function(pedKey, netId, message, info, fr
 
     local npcName = convo.persona.name
     netId = tonumber(netId)
-    if not fromChat then
+    if showPlayerLine then
         broadcast(src, { kind = 'player', speaker = GetPlayerName(src), text = message })
     end
 
@@ -158,6 +158,15 @@ RegisterNetEvent('motion_npctalk:say', function(pedKey, netId, message, info, fr
             })
         end
     end)
+end
+
+RegisterNetEvent('motion_npctalk:say', function(pedKey, netId, message, info, fromChat)
+    handleSay(source, pedKey, netId, message, info, not fromChat)
+end)
+
+-- Voice: server/stt.js transcribes the clip and hands the text over here (local event, not networked).
+AddEventHandler('motion_npctalk:voiceText', function(src, pedKey, netId, info, text)
+    if GetPlayerName(src) then handleSay(src, pedKey, netId, text, info, true) end
 end)
 
 -- Players talk to NPCs by typing in normal chat. Commands are ignored; the client decides

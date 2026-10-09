@@ -233,6 +233,99 @@ CreateThread(function()
     end
 end)
 
+-- ---------------------------------------------------------------------------
+-- Voice: hold push-to-talk next to someone and they hear you.
+-- The hidden page in html/ records the mic only while the key is held and an NPC is listening.
+-- ---------------------------------------------------------------------------
+local recording       -- { ped = handle } while the mic is recording
+local voiceKeyHeld = false
+local micBroken = false
+
+local function startListening()
+    if recording or micBroken then return end
+    local ped = listener()
+    if not ped then return end
+    local state = talking[ped]
+    if state and state.waiting then return end
+    engage(ped) -- they stop and turn to you as soon as you start talking
+    recording = { ped = ped }
+    SendNUIMessage({ type = 'start' })
+end
+
+local function stopListening()
+    if recording then SendNUIMessage({ type = 'stop' }) end
+end
+
+RegisterNUICallback('voiceClip', function(data, cb)
+    cb('ok')
+    local rec = recording
+    recording = nil
+    if not rec or data.skipped or type(data.audio) ~= 'string' or data.audio == '' then return end
+    local ped = rec.ped
+    if not canTalkTo(ped) then return end
+
+    local state = engage(ped)
+    if state.waiting then return end
+    state.waiting = true
+    SetTimeout(30000, function() -- never leave them stuck "thinking" if a reply is lost
+        if talking[ped] == state then state.waiting = false end
+    end)
+
+    local netId = NetworkGetEntityIsNetworked(ped) and NetworkGetNetworkIdFromEntity(ped) or nil
+    TriggerLatentServerEvent('motion_npctalk:voice', 200000, ped, netId, personaInfo(ped), data.audio, data.mime)
+end)
+
+RegisterNUICallback('voiceError', function(data, cb)
+    cb('ok')
+    recording = nil
+    if not micBroken then
+        micBroken = true
+        notify(('NPCs can\'t hear you: the game couldn\'t open your microphone (%s). Run /voicetest for details.')
+            :format(tostring(data.message)))
+    end
+end)
+
+RegisterNUICallback('voiceTest', function(data, cb)
+    cb('ok')
+    if data.ok then micBroken = false end
+    notify((data.ok and 'Voice test: ' or 'Voice test failed: ') .. tostring(data.message))
+end)
+
+RegisterCommand('voicetest', function()
+    micBroken = false
+    SendNUIMessage({ type = 'test' })
+end, false)
+
+RegisterNetEvent('motion_npctalk:voiceStatus', function(msg)
+    notify(msg)
+end)
+
+RegisterNetEvent('motion_npctalk:voiceDone', function()
+    for _, state in pairs(talking) do state.waiting = false end
+end)
+
+if Config.Voice.key then
+    RegisterCommand('+npcvoice', function() voiceKeyHeld = true end, false)
+    RegisterCommand('-npcvoice', function() voiceKeyHeld = false end, false)
+    RegisterKeyMapping('+npcvoice', 'Talk to the NPC in front of you (hold)', 'keyboard', Config.Voice.key)
+end
+
+CreateThread(function()
+    if not Config.Voice.enabled then return end
+    while true do
+        local held = voiceKeyHeld
+        if Config.Voice.usePushToTalk and (IsControlPressed(0, 249) or IsDisabledControlPressed(0, 249)) then
+            held = true
+        end
+        if held and not recording then
+            startListening()
+        elseif not held and recording then
+            stopListening()
+        end
+        Wait(recording and 30 or 100)
+    end
+end)
+
 AddEventHandler('onResourceStop', function(resource)
     if resource ~= GetCurrentResourceName() then return end
     for ped in pairs(talking) do release(ped, false) end

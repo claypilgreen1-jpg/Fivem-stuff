@@ -8,7 +8,15 @@ Config.Model = 'claude-opus-5-5'
 Config.Effort = 'low'        -- low keeps replies quick and cheap; 'medium' gives more thoughtful conversation
 Config.MaxTokens = 1500      -- ceiling per reply (thinking + text); replies are told to stay conversational
 
--- Talking: players just type in normal chat while standing near an NPC.
+-- Voice: hold your normal voice push-to-talk key (N by default) while facing someone and they hear you.
+-- Needs a speech-to-text key on the server (see README):  set npctalk_stt_key "..."
+Config.Voice = {
+    enabled = true,
+    usePushToTalk = true, -- listen while the game's push-to-talk is held
+    key = nil,            -- optional extra hold-to-talk key for open-mic players, e.g. 'B'
+}
+
+-- Typing still works as a fallback: type in normal chat while standing near an NPC.
 -- /talk <message> also works, for chat resources that don't fire the chatMessage event.
 Config.TalkCommand = 'talk'
 Config.TalkDistance = 4.0    -- metres; how close you have to be to start talking
