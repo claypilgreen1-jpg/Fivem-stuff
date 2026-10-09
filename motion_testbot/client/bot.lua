@@ -6,21 +6,24 @@ local function count()
     return n
 end
 
-function Bots.Spawn(model)
-    if count() >= Config.Bot.maxBots then
-        Util.Notify(('Bot limit reached (%d). Dismiss one first.'):format(Config.Bot.maxBots))
-        return
-    end
-    model = model or Config.Bot.defaultModel
+local function addBlip(bot)
+    if not Config.Bot.blip then return end
+    if bot.blip and DoesBlipExist(bot.blip) then RemoveBlip(bot.blip) end
+    bot.blip = AddBlipForEntity(bot.ped)
+    SetBlipSprite(bot.blip, 280)
+    SetBlipColour(bot.blip, 3)
+    BeginTextCommandSetBlipName('STRING')
+    AddTextComponentSubstringPlayerName(('TestBot %d'):format(bot.id))
+    EndTextCommandSetBlipName(bot.blip)
+end
+
+local function createPed(model, coords, heading)
     local hash = Util.LoadModel(model)
     if not hash then
         Util.Notify(('Unknown ped model "%s".'):format(model))
-        return
+        return nil
     end
-
-    local player = PlayerPedId()
-    local spawnAt = GetOffsetFromEntityInWorldCoords(player, 0.0, 2.0, 0.0)
-    local ped = CreatePed(4, hash, spawnAt.x, spawnAt.y, spawnAt.z - 1.0, GetEntityHeading(player) + 180.0, true, true)
+    local ped = CreatePed(4, hash, coords.x, coords.y, coords.z, heading, true, true)
     SetModelAsNoLongerNeeded(hash)
 
     SetEntityAsMissionEntity(ped, true, true)
@@ -30,24 +33,48 @@ function Bots.Spawn(model)
     SetPedKeepTask(ped, true)
     SetPedCanBeTargetted(ped, true)
     SetEntityInvincible(ped, Config.Bot.invincible)
+    Outfit.SetupNew(ped, model)
+    return ped
+end
+
+function Bots.Spawn(model)
+    if count() >= Config.Bot.maxBots then
+        Util.Notify(('Bot limit reached (%d). Dismiss one first.'):format(Config.Bot.maxBots))
+        return
+    end
+    model = (model or Config.Bot.defaultModel):lower()
+
+    local player = PlayerPedId()
+    local spawnAt = GetOffsetFromEntityInWorldCoords(player, 0.0, 2.0, -1.0)
+    local ped = createPed(model, spawnAt, GetEntityHeading(player) + 180.0)
+    if not ped then return end
 
     local id = Bots.nextId
     Bots.nextId = id + 1
-    local bot = { id = id, ped = ped, model = model, status = 'idle', token = 0 }
-
-    if Config.Bot.blip then
-        bot.blip = AddBlipForEntity(ped)
-        SetBlipSprite(bot.blip, 280)
-        SetBlipColour(bot.blip, 3)
-        BeginTextCommandSetBlipName('STRING')
-        AddTextComponentSubstringPlayerName(('TestBot %d'):format(id))
-        EndTextCommandSetBlipName(bot.blip)
-    end
+    local bot = { id = id, ped = ped, model = model, status = 'idle', token = 0, invincible = Config.Bot.invincible }
+    addBlip(bot)
 
     Bots.list[id] = bot
     Bots.selected = id
     Util.Notify(('Spawned bot %d (%s). It is now selected.'):format(id, model))
     return bot
+end
+
+-- Swaps a bot to another ped model in the same spot, keeping its id.
+function Bots.ChangeModel(bot, model)
+    model = model:lower()
+    local old = bot.ped
+    local coords = GetEntityCoords(old)
+    local ped = createPed(model, coords - vector3(0.0, 0.0, 1.0), GetEntityHeading(old))
+    if not ped then return end
+    SetEntityInvincible(ped, bot.invincible)
+
+    bot.token = bot.token + 1
+    bot.ped, bot.model, bot.status, bot.frozen = ped, model, 'idle', false
+    SetEntityAsMissionEntity(old, true, true)
+    DeletePed(old)
+    addBlip(bot)
+    Util.Notify(('Bot %d is now %s.'):format(bot.id, model))
 end
 
 function Bots.Dismiss(bot)

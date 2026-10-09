@@ -2,6 +2,7 @@ Util = {}
 
 function Util.Notify(msg)
     TriggerEvent('chat:addMessage', { color = { 120, 200, 255 }, args = { 'TestBot', msg } })
+    if Menu then Menu.Toast(msg) end
 end
 
 function Util.Split(str, sep)

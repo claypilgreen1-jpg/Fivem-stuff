@@ -96,7 +96,7 @@ local function cleanString(value, maxLen)
     return value:sub(1, maxLen)
 end
 
-RegisterNetEvent('motion_npctalk:say', function(pedKey, netId, message, info)
+RegisterNetEvent('motion_npctalk:say', function(pedKey, netId, message, info, fromChat)
     local src = source
     message = cleanString(message, Config.MaxMessageLength)
     if not message or type(pedKey) ~= 'number' or type(info) ~= 'table' then return end
@@ -128,10 +128,21 @@ RegisterNetEvent('motion_npctalk:say', function(pedKey, netId, message, info)
 
     local npcName = convo.persona.name
     netId = tonumber(netId)
-    broadcast(src, { kind = 'player', speaker = GetPlayerName(src), text = message })
+    if not fromChat then
+        broadcast(src, { kind = 'player', speaker = GetPlayerName(src), text = message })
+    end
 
     askClaude(convo, function(reply, err)
         convo.busy = false
+        local leaving = false
+        if reply then
+            local tagAt = reply:find(Personas.LEAVE_TAG, 1, true)
+            if tagAt then
+                leaving = true
+                reply = reply:sub(1, tagAt - 1):match('^%s*(.-)%s*$')
+                if reply == '' then reply = '...' end
+            end
+        end
         if not reply then
             print(('[motion_npctalk] reply failed: %s'):format(err))
             table.remove(convo.messages) -- drop the unanswered line so roles keep alternating
@@ -142,9 +153,19 @@ RegisterNetEvent('motion_npctalk:say', function(pedKey, netId, message, info)
         end
         convo.lastActive = os.time()
         if GetPlayerName(src) then
-            broadcast(src, { kind = 'npc', speaker = npcName, text = reply, pedKey = pedKey, netId = netId, owner = src })
+            broadcast(src, {
+                kind = 'npc', speaker = npcName, text = reply, pedKey = pedKey, netId = netId, owner = src, leaving = leaving,
+            })
         end
     end)
+end)
+
+-- Players talk to NPCs by typing in normal chat. Commands are ignored; the client decides
+-- whether anyone is close enough to hear.
+AddEventHandler('chatMessage', function(src, _, text)
+    if type(text) == 'string' and text:sub(1, 1) ~= '/' then
+        TriggerClientEvent('motion_npctalk:heard', src, text)
+    end
 end)
 
 AddEventHandler('playerDropped', function()

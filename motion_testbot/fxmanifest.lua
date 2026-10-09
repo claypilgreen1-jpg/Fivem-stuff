@@ -12,9 +12,20 @@ client_scripts {
     'client/util.lua',
     'client/freecam.lua',
     'client/photo.lua',
+    'client/outfit.lua',
     'client/bot.lua',
     'client/tasks.lua',
+    'client/menu.lua',
     'client/main.lua',
+}
+
+ui_page 'html/index.html'
+
+files {
+    'html/index.html',
+    'html/style.css',
+    'html/app.js',
+    'html/peds.js',
 }
 
 server_script 'server/main.lua'

@@ -7,7 +7,8 @@ An admin tool for testing things live on your FiveM server:
 - **Test bots:** spawn peds and give them tasks, or a queue of tasks, such as following you, driving to your waypoint, robbing someone, or acting as a robbery victim. Use them to test robbery, police, EMS and similar scripts.
 - **Event trigger:** fire any client or server event with arguments to test a script without playing through it.
 
-Everything goes through one admin-only command: `/bot`.
+Everything is in one admin-only menu. Press **F7** (or type `/bot`) to open it. The typed commands
+below still work if you prefer them.
 
 ## Install
 
@@ -19,6 +20,20 @@ Everything goes through one admin-only command: `/bot`.
    add_ace group.admin command.bot allow
    ```
 3. Screenshots are saved on the server in `resources/motion_testbot/screenshots/`.
+
+## The menu
+
+| Tab | What's in it |
+| --- | --- |
+| **Peds** | Search and browse every GTA V ped (1,100+, grouped by ambient, gangs, service and jobs, story, cutscene, animals and more). Double-click to spawn, or swap the selected bot's model in place. You can type any model name for add-on peds. |
+| **Outfit** | Dress the selected bot: hair, top, undershirt, pants, shoes, mask, bag, armor, hat, glasses, watch and more, each with style and colour arrows. Has random and default outfit buttons, and saved outfits per model. Online character models (`mp_m_freemode_01` / `mp_f_freemode_01`) get a proper face. |
+| **Tasks** | One click per task: follow, walk or run to, teleport, wander, spawn a car, drive (normal or fast), get in or out, robbery victim (calm or flee), rob, aim, shoot, attack, hands up, flee, kneel, ragdoll, kill, revive, stop, give a weapon, play a scenario or animation. Pick a target (you, nearest ped, your waypoint, another bot). Turn on **Build a queue** to chain tasks in order, and **All bots** to command every bot at once. |
+| **Bots** | Every bot with its current task. Select, god mode, freeze, bring to me, go to it, dismiss. |
+| **Camera** | Free cam, take a photo, run the whole photo tour or shoot one spot, save new spots. |
+| **Events** | Fire any client or server event with JSON args to test a script. |
+
+Players who can open it are set by the same ACE as the command (`command.bot`). Rebind the key in
+Settings → Key Bindings → FiveM.
 
 ## Free cam and photos
 

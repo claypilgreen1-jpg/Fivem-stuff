@@ -10,6 +10,13 @@ RegisterCommand(Config.Command, function(src, _, raw)
     TriggerClientEvent('motion_testbot:command', src, text)
 end, true)
 
+RegisterNetEvent('motion_testbot:requestMenu', function()
+    local src = source
+    if IsPlayerAceAllowed(src, ACE) then
+        TriggerClientEvent('motion_testbot:openMenu', src)
+    end
+end)
+
 local shotCount = 0
 
 local function safeLabel(label)

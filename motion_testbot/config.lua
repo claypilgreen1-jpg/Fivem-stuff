@@ -3,6 +3,7 @@ Config = {}
 -- Everything runs through one admin command. Allow it with:
 --   add_ace group.admin command.bot allow
 Config.Command = 'bot'
+Config.MenuKey = 'F7' -- opens the menu (players can rebind in Settings > Key Bindings > FiveM)
 
 Config.Freecam = {
     fov = 50.0,

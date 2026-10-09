@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TestBot</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app" class="hidden">
+    <header>
+      <div class="title">TestBot <span id="selected-label"></span></div>
+      <button class="icon" id="close" title="Close (Esc)">✕</button>
+    </header>
+
+    <nav id="tabs">
+      <button data-tab="peds" class="active">Peds</button>
+      <button data-tab="outfit">Outfit</button>
+      <button data-tab="tasks">Tasks</button>
+      <button data-tab="bots">Bots</button>
+      <button data-tab="camera">Camera</button>
+      <button data-tab="events">Events</button>
+    </nav>
+
+    <!-- PEDS -->
+    <section id="tab-peds" class="tab active">
+      <div class="row">
+        <input id="ped-search" type="text" placeholder="Search 1,100+ peds (name or model)…">
+      </div>
+      <div class="row">
+        <select id="ped-category"><option value="">All categories</option></select>
+      </div>
+      <div id="ped-count" class="muted"></div>
+      <div id="ped-list" class="list"></div>
+      <div class="row">
+        <input id="ped-custom" type="text" placeholder="Or type any model name (add-on peds too)">
+      </div>
+      <div class="row buttons">
+        <button id="ped-spawn" class="primary">Spawn new bot</button>
+        <button id="ped-swap">Change selected bot</button>
+      </div>
+      <p class="hint">Double-click a ped to spawn it. "Change selected bot" swaps the model in place.</p>
+    </section>
+
+    <!-- OUTFIT -->
+    <section id="tab-outfit" class="tab">
+      <div id="outfit-empty" class="empty">Spawn or select a bot to dress it.</div>
+      <div id="outfit-body">
+        <div class="row buttons">
+          <button id="outfit-random" class="primary">Random outfit</button>
+          <button id="outfit-default">Default</button>
+        </div>
+        <p class="hint">Each row: style ‹ › on the left, colour ‹ › on the right.</p>
+        <h3>Clothing</h3>
+        <div id="outfit-components"></div>
+        <h3>Accessories</h3>
+        <div id="outfit-props"></div>
+        <h3>Saved outfits <span class="muted">(this model)</span></h3>
+        <div class="row">
+          <input id="preset-name" type="text" placeholder="Outfit name">
+          <button id="preset-save">Save</button>
+        </div>
+        <div id="preset-list" class="chips"></div>
+      </div>
+    </section>
+
+    <!-- TASKS -->
+    <section id="tab-tasks" class="tab">
+      <div class="row">
+        <label>Target</label>
+        <select id="task-target"></select>
+      </div>
+      <div class="row toggles">
+        <label><input type="checkbox" id="queue-mode"> Build a queue</label>
+        <label><input type="checkbox" id="apply-all"> All bots</label>
+      </div>
+      <div id="queue-box" class="hidden">
+        <div id="queue-chips" class="chips"></div>
+        <div class="row buttons">
+          <button id="queue-run" class="primary">Run queue</button>
+          <button id="queue-clear">Clear</button>
+        </div>
+      </div>
+
+      <h3>Move</h3>
+      <div class="grid" data-group="move"></div>
+      <h3>Vehicle</h3>
+      <div class="row">
+        <input id="car-model" type="text" value="sultan" placeholder="Car model">
+      </div>
+      <div class="grid" data-group="vehicle"></div>
+      <h3>Robbery &amp; combat</h3>
+      <div class="row">
+        <label>Victim calms after</label>
+        <input id="victim-secs" type="number" min="1" value="8" class="small"> s
+      </div>
+      <div class="grid" data-group="crime"></div>
+      <h3>Poses &amp; misc</h3>
+      <div class="grid" data-group="misc"></div>
+
+      <h3>Weapon</h3>
+      <div class="row">
+        <select id="weapon-select"></select>
+        <button id="weapon-give">Give</button>
+      </div>
+      <h3>Scenario</h3>
+      <div class="row">
+        <select id="scenario-select"></select>
+        <button id="scenario-play">Play</button>
+      </div>
+      <h3>Animation</h3>
+      <div class="row">
+        <input id="anim-dict" type="text" placeholder="dict">
+        <input id="anim-name" type="text" placeholder="name">
+      </div>
+      <div class="row toggles">
+        <label><input type="checkbox" id="anim-upper"> Upper body only</label>
+        <button id="anim-play">Play</button>
+      </div>
+      <h3>Wait <span class="muted">(queue)</span></h3>
+      <div class="row">
+        <input id="wait-secs" type="number" min="1" value="3" class="small">
+        <button id="wait-add">Add wait</button>
+      </div>
+    </section>
+
+    <!-- BOTS -->
+    <section id="tab-bots" class="tab">
+      <div id="bot-list" class="list"></div>
+      <div class="row buttons">
+        <button id="bots-dismiss-all" class="danger">Dismiss all</button>
+      </div>
+    </section>
+
+    <!-- CAMERA -->
+    <section id="tab-camera" class="tab">
+      <div class="row buttons">
+        <button id="cam-toggle" class="primary">Free cam</button>
+        <button id="cam-photo">Take photo</button>
+      </div>
+      <p class="hint">In free cam: WASD move, Q/E down/up, Shift fast, Ctrl slow, wheel zoom, left click photo, Backspace exit.</p>
+      <h3>Photo tour</h3>
+      <div class="row buttons">
+        <button id="tour-all" class="primary">Tour every spot</button>
+        <button id="tour-stop">Stop tour</button>
+      </div>
+      <div id="spot-list" class="list"></div>
+      <h3>Save a new spot</h3>
+      <div class="row">
+        <input id="spot-name" type="text" placeholder="spot_name">
+        <button id="spot-save">Print config line</button>
+      </div>
+      <p class="hint">Frame the shot in free cam first. The line is printed in F8 and chat to paste into Config.PhotoSpots.</p>
+    </section>
+
+    <!-- EVENTS -->
+    <section id="tab-events" class="tab">
+      <div class="row">
+        <select id="event-side">
+          <option value="server">Server event</option>
+          <option value="client">Client event</option>
+        </select>
+      </div>
+      <div class="row"><input id="event-name" type="text" placeholder="my_robbery:server:start"></div>
+      <div class="row"><input id="event-args" type="text" placeholder='JSON args, e.g. ["store_1", 500]'></div>
+      <div class="row buttons"><button id="event-fire" class="primary">Fire event</button></div>
+      <p class="hint">Fires as you. Use it to jump a script to a step without playing through it.</p>
+    </section>
+
+    <div id="toast" class="hidden"></div>
+  </div>
+
+  <script src="peds.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

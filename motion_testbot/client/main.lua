@@ -1,4 +1,5 @@
 local HELP = {
+    '/bot or /bot menu - open the TestBot menu (or press ' .. Config.MenuKey .. ')',
     '/bot cam - toggle the free cam (LMB in free cam = screenshot)',
     '/bot photo [label] - screenshot right now',
     '/bot tour [spot ...] | tour stop - fly to Config.PhotoSpots and photograph each',
@@ -56,9 +57,11 @@ end
 
 RegisterNetEvent('motion_testbot:command', function(text)
     local words = Util.Split(text, ' ')
-    local cmd = (words[1] or 'help'):lower()
+    local cmd = (words[1] or 'menu'):lower()
 
-    if cmd == 'help' then
+    if cmd == 'menu' then
+        Menu.Open()
+    elseif cmd == 'help' then
         for _, line in ipairs(HELP) do Util.Notify(line) end
     elseif cmd == 'tasks' then
         Tasks.PrintHelp()
