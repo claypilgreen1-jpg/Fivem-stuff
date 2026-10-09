@@ -1,3 +1,10 @@
+# Fivem-stuff
+
+| Resource | What it is |
+| --- | --- |
+| [`motion_guns`](#motion-guns) | Mega add-on weapon pack (33 guns) |
+| [`motion_testbot`](motion_testbot/README.md) | Admin free cam, photo tours and task-driven test bot peds |
+
 # Motion Guns
 
 A mega add-on weapon pack for FiveM. 33 real-world guns as **add-on** weapons
