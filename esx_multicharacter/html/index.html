@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Motion City RP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rajdhani:wght@500;600;700&family=Rubik+Wet+Paint&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app" class="hidden">
+    <div class="vignette"></div>
+    <aside id="panel">
+      <img class="logo" src="logo.png" alt="Motion City RP">
+      <div class="brand">
+        <div class="brand-title">Choose your character</div>
+        <div class="brand-sub" id="slot-count"></div>
+      </div>
+      <div id="slots"></div>
+    </aside>
+
+    <section id="details" class="hidden">
+      <div class="name" id="d-name"></div>
+      <div class="meta" id="d-meta"></div>
+      <div class="stats">
+        <div><span>Job</span><b id="d-job"></b></div>
+        <div><span>Cash</span><b id="d-cash"></b></div>
+        <div><span>Bank</span><b id="d-bank"></b></div>
+      </div>
+      <div class="actions">
+        <button id="btn-delete" class="ghost danger">Delete</button>
+        <button id="btn-play" class="primary">Play</button>
+      </div>
+      <div id="d-disabled" class="notice hidden">This character has been disabled by staff.</div>
+    </section>
+
+    <!-- Create -->
+    <div id="create" class="modal hidden">
+      <form id="create-form" class="card">
+        <h2>New character</h2>
+        <div class="grid2">
+          <label>First name<input name="firstname" required autocomplete="off"></label>
+          <label>Last name<input name="lastname" required autocomplete="off"></label>
+        </div>
+        <div class="grid2">
+          <label>Date of birth<input name="dateofbirth" type="date" required></label>
+          <label>Height (cm)<input name="height" type="number" required></label>
+        </div>
+        <div class="sex">
+          <button type="button" data-sex="m" class="sex-btn active">Male</button>
+          <button type="button" data-sex="f" class="sex-btn">Female</button>
+        </div>
+        <div id="create-error" class="error hidden"></div>
+        <div class="actions">
+          <button type="button" id="create-cancel" class="ghost">Cancel</button>
+          <button type="submit" class="primary">Create &amp; customize</button>
+        </div>
+        <p class="hint">Next you'll pick your face, hair and clothes.</p>
+      </form>
+    </div>
+
+    <!-- Delete -->
+    <div id="confirm" class="modal hidden">
+      <div class="card">
+        <h2>Delete character?</h2>
+        <p id="confirm-text"></p>
+        <label>Type the full name to confirm<input id="confirm-input" autocomplete="off"></label>
+        <div class="actions">
+          <button type="button" id="confirm-cancel" class="ghost">Cancel</button>
+          <button type="button" id="confirm-ok" class="danger-fill" disabled>Delete forever</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

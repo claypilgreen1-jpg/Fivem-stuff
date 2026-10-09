@@ -4,6 +4,7 @@
 | --- | --- |
 | [`motion_guns`](#motion-guns) | Mega add-on weapon pack (33 guns) |
 | [`motion_testbot`](motion_testbot/README.md) | Admin menu (F7): spawn and dress any GTA ped, give bots tasks, free cam and photo tours |
+| [`esx_multicharacter`](esx_multicharacter/README.md) | Motion City RP character select and creation for ESX Legacy + illenium-appearance |
 | [`motion_npctalk`](motion_npctalk/README.md) | Talk to any NPC with your voice (push-to-talk) and have a real conversation with them |
 
 # Motion Guns
