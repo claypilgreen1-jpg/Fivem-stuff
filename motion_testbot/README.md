@@ -89,8 +89,8 @@ Targets: `me`, `ped` (nearest normal ped), `waypoint`, `bot:<id>`, `player:<serv
 
 - **You're the robber:** run `/bot spawn mp_m_shopkeep_01`, then `/bot tp me ; victim flee 10`. Stand behind the counter, aim at it, and check that your robbery script triggers. The bot puts its hands up while you aim and runs off 10 seconds after you stop.
 - **Watch a robbery:** run `/bot spawn ; rob ped`. The bot holds up the nearest NPC, for example a store clerk, while you watch from `/bot cam`.
-- **Skip straight to a step:** fire the robbery script's own events, for example
-  `/bot event server qb-storerobbery:server:takeMoney ["1"]` or
+- **Skip straight to a step:** fire the robbery script's own events (find their names in its `RegisterNetEvent` lines), for example
+  `/bot event server my_robbery:server:payout ["store_1"]` or
   `/bot event client my_robbery:start [{"store":"ltd_grove"}]`.
   The arguments must be a JSON array.
 
