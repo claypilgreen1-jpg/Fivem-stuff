@@ -4,6 +4,7 @@
 | --- | --- |
 | [`motion_guns`](#motion-guns) | Mega add-on weapon pack (33 guns) |
 | [`motion_testbot`](motion_testbot/README.md) | Admin free cam, photo tours and task-driven test bot peds |
+| [`motion_npctalk`](motion_npctalk/README.md) | Talk to any NPC in the city; they reply in character (Claude API) |
 
 # Motion Guns
 
